@@ -1,0 +1,97 @@
+{% extends 'login/base.html' %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="stat_container" id="selected_playlists" style="background-color: rgb(247,220,124); padding:3%;">
+    <!-- <div align="center"><h1 style="color: rgb(85,196,181)">Selected Playlist</h1></div> -->
+    <div align="center">
+        <h1> Analyzing {{ num_playlists }} playlist(s)</h1>
+        <h4></h4>
+    </div>
+
+
+    <div>
+        {% for playlist_track in playlist_tracks %}
+        {% if forloop.first %} <div class="row"> {% endif %}
+            <div class="col-md-4 col-xs-4">
+                <div style="text-align:center;">
+                    <p id="playlist_name" style="font-size:1.3vw;"> "{{ playlist_track.name}}" has
+                        <br>
+                        <span id="feat_val">{{ playlist_track.main_features_val.0 }}</span>
+                        <span id="feat_name">{{ playlist_track.main_features.0 }}</span>,
+                        <span id="feat_val">{{ playlist_track.main_features_val.1 }}</span>
+                        <span id="feat_name">{{ playlist_track.main_features.1 }}</span>,
+                        <span id="feat_val">{{ playlist_track.main_features_val.2 }}</span>
+                        <span id="feat_name">{{ playlist_track.main_features.2 }}</span>.
+                    </p>
+                    <iframe src="https://open.spotify.com/embed/playlist/{{ playlist_track.id }}" width="280" height="360"
+                        frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}</div>
+        <div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="stat_container" id="feature_histogram" style="background-color:rgb(244,247,246);">
+    <div align="center">
+        <h1 style="color:rgb(232,93,93);"> Feature Histogram </h1>
+        <h4></h4>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-4">{{ result.danceability.plot|safe }} </div>
+            <div class="col-md-4 col-xs-4">{{ result.energy.plot|safe }}</div>
+            <div class="col-md-4 col-xs-4">{{ result.loudness.plot|safe }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-4">{{ result.valence.plot|safe }} </div>
+            <div class="col-md-4 col-xs-4">{{ result.acousticness.plot|safe }}</div>
+            <div class="col-md-4 col-xs-4">{{ result.liveness.plot|safe }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-4">{{ result.instrumentalness.plot|safe }}</div>
+            <div class="col-md-4 col-xs-4">{{ result.popularity.plot|safe }}</div>
+            <div class="col-md-4 col-xs-4">{{ result.tempo.plot|safe }}</div>
+        </div>
+    </div>
+</div>
+
+
+<div class="stat_container" id="feature_mean_variance" style="background-color:rgb(178,188,246);">
+    <div align="center">
+        <h1 style="color:rgb(232,93,93);"> Feature Mean & Variance </h1>
+        <h4> Small variance might indicate that the feature is a good descriptor of your taste</h4>
+    </div>
+    <div class="row">
+        {% for boxplot in boxplots %}
+        {% if forloop.first %} <div class="row" style="margin-bottom:2%;"> {% endif %}
+            <div class="col-md-6 col-xs-6">
+                <div style="text-align:center;">
+                    <div style="width:100%;"> {{ boxplot|safe }}</div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:2 %}</div>
+        <div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+<div class="stat_container" id="track_embedding_space" style="background-color:rgb(232,93,93);">
+    <div align="center">
+        <h1 style="color:rgb(122,94,225);"> Track embedding space </h1>
+    </div>
+    <div style="width:60%;margin-left:auto; margin-right:auto; text-align:center;" id="pygal_plot">
+        {{ pcaplot | safe }}
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+{% endblock %}

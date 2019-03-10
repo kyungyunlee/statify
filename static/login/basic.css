@@ -1,0 +1,287 @@
+@import url('://fonts.googleapis.com/css?family=Permanent+Marker|Carter+One|Open+Sans');
+
+
+body {
+    /* margin:5%; */
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+/* 
+.row { 
+    display:flex;
+    width:80%;
+
+    margin-left:auto;
+    margin-right:auto;
+    padding-bottom:2%;
+}
+.col { 
+    flex:20%;
+} */
+
+#main-page {
+    margin:0;
+    /* background-color:rgb(76,101,223); */
+}
+
+
+h1#header{
+    font-family: 'Carter One', 'Roboto', serif;
+    font-weight: 700;
+    font-size: 10vw;
+}
+
+h1 { 
+    font-family: 'Carter One', sans-serif;
+}
+
+#playlist_cover {
+    width:10vw;
+    height:10vw;
+}
+
+#playlist_name {
+    font-size:1.2vw;
+    font-weight:bold;
+}
+.stat_container {
+    margin:0;
+    padding:3%;
+
+}
+
+#feat_name { 
+    font-size:2vw;
+}
+#feat_val {
+    color: rgb(85,196,181);
+    font-size:2vw;
+}
+
+#feat_name_large {
+    font-size:1.3vw;
+    /* color:rgb(232,93,93); */
+    font-weight:bold;
+}
+#feat_name_small {
+    font-size:1.3vw;
+}
+
+#feat_val_large { 
+    /* font-size:2.7vw; */
+    /* color:rgb(232,93,93); */
+    font-weight:bold;
+}
+#feat_val_small{
+    /* font-size:1.3vw; */
+    /* color:rgb(232,93,93); */
+}
+
+#rec_button { 
+  background-color: #555555; /* Green */
+  border: none;
+  color: white;
+  width:70%;
+  text-align: center;
+  padding:1%;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5vw;
+  font-family: 'Carter One', sans-serif;
+
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+#rec_button:hover {
+background-color:#e7e7e7; /* Green */
+color: #555555;
+}
+
+#analyze_button { 
+    background-color: #555555; /* Green */
+    border: none;
+    color: white;
+    width:40%;
+    text-align: center;
+    padding:1%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 2vw;
+    font-family: 'Carter One', sans-serif;
+
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+#analyze_button:hover {
+  background-color:#e7e7e7; /* Green */
+  color: #555555;
+}
+
+#login-button { 
+    background-color:#4CAF50; /* Green */
+    border: none;
+    color: white;
+    width:15%;
+    text-align: center;
+    padding:1%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2vw;
+
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+#login-button:hover {
+  background-color:#e7e7e7; /* Green */
+  color: #4CAF50;
+}
+
+#pygal_plot{
+    margin:2%;
+}
+
+#mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.hidden {
+  display:hidden;
+}
+
+.show {
+  display:block;
+}
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    /* color: #444; */
+    background-color: Transparent;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .collapsible:hover {
+    /* background-color: #ccc; */
+  }
+  
+  /* Style the collapsible content. Note: hidden by default */
+  .content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    /* background-color: #f1f1f1; */
+  }
+
+  /* Arrow down */
+  i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+  .arrow.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+  .arrow.active {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+
+
+  /* Loader */
+
+  .lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .lds-hourglass:after {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 6px;
+    box-sizing: border-box;
+    border: 26px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-hourglass 1.2s infinite;
+  }
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+  
+
+
+
+.sort {
+    padding:8px 30px;
+    border-radius: 6px;
+    border:none;
+    display:inline-block;
+    color:#fff;
+    text-decoration: none;
+    background-color: #28a8e0;
+    height:30px;
+  }
+  .sort:hover {
+    text-decoration: none;
+    background-color:#1b8aba;
+  }
+  .sort:focus {
+    outline:none;
+  }
+  .sort:after {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    content:"";
+    position: relative;
+    top:-10px;
+    right:-5px;
+  }
+  .sort.asc:after {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+    content:"";
+    position: relative;
+    top:13px;
+    right:-5px;
+  }
+  .sort.desc:after {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff;
+    content:"";
+    position: relative;
+    top:-10px;
+    right:-5px;
+  }

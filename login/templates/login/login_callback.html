@@ -1,0 +1,17 @@
+{% extends 'login/base.html' %}
+{% block content %}
+<script>
+        $('document').ready(function () {
+                var spotifyAccessToken = String(window.location.hash).split("access_token=")[1].split(
+                        "&")[0];
+                console.log(spotifyAccessToken);
+                localStorage.clear(); // clear localStorage 
+                localStorage.setItem("accessToken", spotifyAccessToken);
+                window.close();
+        });
+</script>
+
+<p>Spotify login sucess!</p>
+
+
+{% endblock %}

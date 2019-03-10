@@ -1,0 +1,64 @@
+{% extends 'login/base.html' %}
+{% block content %}
+<div id="main-page" align="center">
+    <span>
+        <h1 id="header"> STATIFY </h1>
+        <h4 style="margin-bottom: 10%;"> Statistics behind your playlist (and analyze your music taste) </h4>
+        <!-- <h2>About</h2>
+    <h4> 
+        Statify uses features from Spotify Web API to analyze your music taste. 
+        It will create a new playlist for you, "Statify: My Top Tracks", composed of your top 50 most listened tracks.
+        Compare your playlist with the top tracks from around the world or with your other playlists. 
+    </h4> -->
+        <button id="login-button">login with spotify</button>
+    </span>
+</div>
+{%csrf_token%}
+<input type="hidden" id="cid" name="cid" value="{{ cid }}">
+
+<script type="text/javascript">
+    document.getElementById('login-button').addEventListener('click', function () {
+        var SPOTIPY_CLIENT_ID = document.getElementById("cid").value;
+        // console.log(SPOTIPY_CLIENT_ID);
+        var SPOTIPY_REDIRECT_URI = "http://localhost:8000/callback/";
+        // var SPOTIPY_REDIRECT_URI = "https://statify-with-spotify.herokuapp.com/callback/";
+        var spotifyScope = "playlist-read-private user-top-read playlist-modify-private playlist-modify-public";
+        var spotifyAuthEndpoint = "https://accounts.spotify.com/authorize?" + "client_id=" + SPOTIPY_CLIENT_ID +
+            "&redirect_uri=" + SPOTIPY_REDIRECT_URI + "&scope=" + spotifyScope + "&response_type=token";
+        console.log("before");
+        window.open(spotifyAuthEndpoint, 'callBackWindow', 'height=500,width=400');
+        //This event listener will trigger once your callback page adds the token to localStorage
+        window.addEventListener("storage", function (event) {
+            console.log("local storage event detected");
+            if (event.key == "accessToken") {
+                var spAccessToken = event.newValue;
+                //do things with spotify API using your access token here!!
+                console.log(spAccessToken);
+                // send the token to django view 
+                $.ajax({
+                    type: "POST",
+                    // url:'{% url "main" %}',
+                    url: '/main/',
+                    data: {
+                        "spAccessToken": spAccessToken
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", Cookies.get('csrftoken'));
+                    },
+                    success: function (data, textStatus) {
+                        // alert('success');
+                        console.log("sucessfully sent the token");
+                        $('#header').html("welcome! loading data...").css('font-size',
+                            '4vw');
+                        document.location.href = "{% url 'list_playlists' %}";
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {},
+                });
+            }
+
+        }, true);
+
+    });
+</script>
+{% endblock %}

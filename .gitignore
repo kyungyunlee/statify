@@ -102,3 +102,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+__pycache__
+db.sqlite3
+*/migrations/*
+*.mp3
+.DS*
+staticfiles
+/media

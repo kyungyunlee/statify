@@ -1,0 +1,26 @@
+{% load static %}
+<html>
+
+<head>
+    <title>Search</title>
+    <!-- tensorflow js -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.12.5"> </script> -->
+    <!-- jquery and jquery cookie -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- font -->
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel='stylesheet' type='text/css'>
+    <!-- my css file -->
+    <link rel="stylesheet" href="{% static 'login/basic.css' %}">
+
+</head>
+
+<body>
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>

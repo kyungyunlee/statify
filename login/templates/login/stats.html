@@ -1,0 +1,140 @@
+{% extends 'login/base.html' %}
+{% block content %}
+
+
+<!-- <p>Spotify login sucess!</p> -->
+<div class="stat_container" style="background-color:rgb(162,209,246);">
+    <div align="center">
+        <h1>Your top 50 tracks</h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 col-md-4" align="center">
+            <iframe src="https://open.spotify.com/embed/playlist/{{ user_top_playlist.id }}" width="280" height="360"
+                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+        <div class="col-xs-8 col-md-8">
+
+
+            <div>
+                <h4 id="mono"> {{ username }}_taste_vector = {{ taste_vector }}</h4>
+            </div>
+            <button style="font-style:italic;" class="collapsible">What does this vector mean? click <i class="arrow down"
+                    onclick="this.classList.toggle('active')"></i></button>
+
+            <div class="content">
+                <p>Taste vector is composed of the mean value 8 audio features from your top 50 most listened tracks.
+                    <br>taste_vector = ['danceability', 'energy', 'loudness', 'acousticness', 'instrumentalness',
+                    'liveness', 'valence', 'tempo']</p>
+            </div>
+
+            <h4 style="font-weight:bold;"> Mean and variance of audio features </h4>
+            <div style="width:60%;" id="pygal_plot">
+                {{ box_plot | safe }}
+            </div>
+
+
+            <h4 style="font-weight:bold;">Your most listened genres</h4>
+            <div style="width:60%;" id="pygal_plot">
+                {{ genre_chart | safe }}
+            </div>
+            <form action='recommend' method='GET'>
+                <button type='submit' id="rec_button"> Get recommendation from new releases! </button>
+            </form>
+            <p style="font-style: italic;"> *Warning* Be patient! This takes time...it fetches audio features for 100
+                newly released tracks and computes cosine similarity with your taste vector.
+                It gives you 10 most similar tracks to your taste vector from the Spotify's "New Release Friday"
+                playlist. </p>
+            <!-- <div class="lds-hourglass"></div> -->
+            <div class="{% if computed == 'false' %} hidden {% else %} show {% endif %}">
+                <iframe src="https://open.spotify.com/embed/playlist/{{ recommendation_playlist_id }}" width="280"
+                    height="360" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<div align="center">
+    <h1> Select playlists to statify and compare </h1>
+    <p> Up to 3 recommended, else data gets too crowded :) </p>
+</div>
+<form method="POST" action="{% url 'multiple_analysis' %}">
+    {% csrf_token %}
+    <!-- <select> -->
+    <div class="stat_container" style="background-color:rgb(244,247,245);">
+        <div class="row">
+            <div class="col-md-2 col-xs-2">
+                <h4 style="font-weight:bold; line-height:1.8vw;">These are Spotify's popular playlist.
+                    Select one if you want to see how "popular" your musical taste is.
+                </h4>
+            </div>
+            <div class="col-md-3 col-xs-3">
+                <div id="playlist_item" style="text-align:center; margin-bottom:2vw;">
+                    <img src="{{ global50.images.0.url }}" id="playlist_cover"> </img>
+                    <div id="playlist_name" class="fixed-bottom checkbox-container"><input type="checkbox" value="{{ global50.id }}"
+                            name="choices">{{ global50.name }}</br></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-3">
+                <div id="playlist_item" style="text-align:center; margin-bottom:2vw;">
+                    <img src="{{ kpop.images.0.url }}" id="playlist_cover"> </img>
+                    <div id="playlist_name" class="fixed-bottom checkbox-container"><input type="checkbox" value="{{ kpop.id }}"
+                            name="choices">{{ kpop.name }}</br></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-3">
+                <div id="playlist_item" style="text-align:center; margin-bottom:2vw;">
+                    <img src="{{ todaytop.images.0.url }}" id="playlist_cover"> </img>
+                    <div id="playlist_name" class="fixed-bottom checkbox-container"><input type="checkbox" value="{{ todaytop.id }}"
+                            name="choices">{{ todaytop.name }}</br></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="stat_container">
+
+        {% for playlist in playlists %}
+        {% if forloop.first %} <div class="row"> {% endif %}
+            <div class="col-md-4 col-xs-4">
+                <div id="playlist_item" style="text-align:center; margin-bottom:2vw;">
+                    <img src="{{ playlist.images.0.url }}" id="playlist_cover"> </img>
+                    <div id="playlist_name" class="fixed-bottom checkbox-container"><input type="checkbox" value="{{ playlist.id }}"
+                            name="choices">{{ playlist.name }}</br></div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}</div>
+        <div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+    </div>
+    <!-- </select> -->
+    <div class="container" style="text-align: center;"> <input id="analyze_button" type="submit" value="analyze!"></input></div>
+</form>
+
+<script>
+    // var options = {
+    //     valueNames: [ 'name', 'popularity']
+    //     };
+
+    //     var userList = new List('top_tracks', options);
+    var coll = document.getElementsByClassName("collapsible");
+    var arrow = document.getElementsByClassName("arrow");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+{% endblock %}
