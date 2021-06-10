@@ -1,6 +1,6 @@
 matplotlib==2.1.1
 django_heroku==0.3.1
-Django==2.2.13
+Django==2.2.24
 pandas==0.23.4
 seaborn==0.9.0
 pygal==2.4.0
